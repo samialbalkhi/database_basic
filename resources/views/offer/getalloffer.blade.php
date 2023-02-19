@@ -10,6 +10,20 @@
 <body> 
   
   @section('navbar')
+
+  @if(Session::has('success'))
+  <div class="alert alert-success" role="alert">
+    {{Session::get('success')}}
+  </div> 
+  @endif
+
+  @if(Session::has('error'))
+  <div class="alert alert-danger" role="alert">
+    {{Session::get('error')}}
+  </div> 
+  @endif
+
+
   <table class="table">
     <thead>
       <tr>
@@ -30,9 +44,13 @@
           <td>{{$item->name}}</td>
           <td>{{$item->price}}</td>
           <td>{{$item->details}}</td>
+          {{-- <td>{{$item->image}}</td> --}}
+
           <td>
 
           <a href="{{route('editoffer',$item->id)}}" class="btn btn-success">update</a>
+          <a href="{{route('deleteoffer',$item->id)}}" class="btn btn-danger">delete</a>
+
 
           </td>
 

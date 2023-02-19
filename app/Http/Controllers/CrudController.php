@@ -7,6 +7,8 @@ use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use function PHPUnit\Framework\returnSelf;
+
 class CrudController extends Controller
 {
     public function getoffers()
@@ -21,7 +23,7 @@ class CrudController extends Controller
     }
     public function stor(OffreRequest $request)
     {
-        dd($request->image);        
+        // dd($request->image);        
        $path=$request->image->store('images','public');
 
         Offer::create([
@@ -59,5 +61,14 @@ class CrudController extends Controller
         ]);
         
         return redirect()->back()->with(['success'=>'insted updated']);
+    }
+    public function deleteoffer($id)
+    {
+        $offer=Offer::findOrFail($id);
+        if($offer)
+        // return redirect()->back()->with(['error'=>'offer not found']);
+
+        $offer->delete();
+        return redirect()->route('alloffer',$id)->with(['success'=>'offer deleted']);
     }
 }

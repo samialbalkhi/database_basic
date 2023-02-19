@@ -25,7 +25,6 @@ class OffreRequest extends FormRequest
             'name'=>'required|max:20|unique:offers,name',
         'price'=>'required|numeric',
         'details'=>'required',
-        'image'=>['image' ,'mimes:png','max:200']
         
         ];
     }
