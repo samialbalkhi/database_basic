@@ -22,11 +22,12 @@ Route::get('/', function () {
 });
 
 
-Route::get('/viewoffers',[CrudController::class,"getoffers"]);
-// Route::post('/stor',[CrudController::class,"stor"])->name("stor");
-
-Route::group(['prefix'=> LaravelLocalization::setLocale(),'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]],function(){
-
+    Route::get('/viewoffers',[CrudController::class,"getoffers"]);
+    Route::group(['prefix'=> LaravelLocalization::setLocale(),'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]],function(){
     Route::get('/create',[CrudController::class,"create"]);
     Route::post('/stor',[CrudController::class,"stor"])->name("offerstor");
+    Route::get('/gitalloffer',[CrudController::class,"gitalloffer"]);
+    Route::get('/edit/{id}',[CrudController::class,"editoffer"])->name("editoffer");
+    Route::post("/update/{id}",[CrudController::class,"updateoffer"])->name("updateoffer");
+
 });

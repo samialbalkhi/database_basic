@@ -9,7 +9,7 @@
 </head>
 <body> 
   
-  <h3>Add Your Offers</h3>
+  <h3>Update Your Offers</h3>
   @section('navbar')
   <div class="container mt-3">
       
@@ -20,21 +20,12 @@
       @endif
       @endsection
         
-      <form action="{{route('offerstor')}}" enctype="multipart/form-data"  method="POST"  class="was-validated">
+      <form action="{{route('updateoffer',$offer->id)}}" method="POST" class="was-validated">
         @csrf
       
         <div class="mb-3 mt-3">
-          <label for="file" class="form-label">upload image</label>
-          <input type="file" class="form-control" name="image">
-
-          @error('image')
-          <small class="form-text text-danger">{{$message}}</small>
-          @enderror
-
-
-        <div class="mb-3 mt-3">
           <label for="uname" class="form-label">Offer Name</label>
-          <input type="text" class="form-control" placeholder="Enter offer name" name="name" >
+          <input type="text" class="form-control" placeholder="Enter offer name" name="name" value="{{$offer->name}}" >
 
           @error('name')
           <small class="form-text text-danger">{{$message}}</small>
@@ -43,7 +34,7 @@
         </div>
         <div class="mb-3">
           <label for="pwd" class="form-label">Offer Price</label>
-          <input type="text" class="form-control"  placeholder="Enter Offer Price" name="price">
+          <input type="text" class="form-control"  placeholder="Enter Offer Price" name="price" value="{{$offer->price}}">
 
           @error('price')
           <small class="form-text text-danger">{{$message}}</small>
@@ -52,7 +43,7 @@
         </div>
         <div class="mb-3">
           <label for="pwd" class="form-label">Offer Detils</label>
-          <input type="text" class="form-control"  placeholder="Enter Offer Detils" name="details" >
+          <input type="text" class="form-control"  placeholder="Enter Offer Detils" name="details" value="{{$offer->details}}">
           @error('details')
           <small class="form-text text-danger">{{$message}}</small>
           @enderror
@@ -63,7 +54,7 @@
           <button type="submit" class="btn btn-primary">seve offer</button>
         </div>
 
-      </form> 
+      {{-- </form>  --}}
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

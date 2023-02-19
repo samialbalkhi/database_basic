@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OffreRequest;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,62 +13,51 @@ class CrudController extends Controller
     {
         return Offer::select('id','name')->get();
     }
-    // public function stor(Request $request)
-    // {
-    //     Offer::create([
-
-    //         'name'=>$request->name,
-    //         'price'=>$request->price,
-    //         'details'=>$request->details
-
-    //     ]);
-    // }
 
     public function create()
     {
         return view("offer.create");
 
     }
-    public function stor(Request $request)
+    public function stor(OffreRequest $request)
     {
-    //    return ($request);
-        $rules=$this->getRules();
-        $messges=$this->getmessages();
-        $validator=Validator::make($request->all(),$rules,$messges);
-            
-        if($validator->fails())
-        {
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        dd($request->image);        
+       $path=$request->image->store('images','public');
 
-        }
         Offer::create([
             'name'=>$request->name,
             'price'=>$request->price,
-            'details'=>$request->details
+            'details'=>$request->details,
+            'image'=>$path
+
         ]);
-
-        return redirect()->back()->with(['success'=>'insted offers']);
-
     }
 
-    public function getRules()
+    public function gitalloffer()
     {
-      return $rules=
-        ['name'=>'required|max:20|unique:offers,name',
-        'price'=>'required|numeric',
-        'details'=>'required',];
+        $offre=Offer::select('id','name','price','details')->get();   
+        return view("offer.getalloffer",compact('offre')); 
     }
-    public function getmessages()
+    public function editoffer($id)
     {
+      $offer=Offer::findOrFail($id);
+      if($offer)
+     $offer=Offer::select('id','name','price','details')->find($id);
+        return view('offer.edit',compact('offer'));
         
-     return $messges=   
-     [
-         'name.required'=>__('messages.your name is required'),
-        'name.unique'=>__('messages.already a username'),
-        'price.required'=>__('messages.inter your price offer'),
-        'price.numeric'=>__("messages.inter youe plese Numbers"),
-         'details'=>__('messages.inter your details plese')
-        ];
     }
+    public function updateoffer(OffreRequest $request,$id)
+    {  
+       $offer=$offer=Offer::findOrFail($id);
 
+        $offer->update([
+
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'details'=>$request->details
+
+        ]);
+        
+        return redirect()->back()->with(['success'=>'insted updated']);
+    }
 }
